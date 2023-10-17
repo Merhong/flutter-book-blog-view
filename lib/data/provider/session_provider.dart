@@ -33,7 +33,7 @@ class SessionUser {
     // 2-2. 회원가입 실패 (-1)
     else {
       ScaffoldMessenger.of(mContext!)
-          .showSnackBar(SnackBar(content: Text("회원가입 실패")));
+          .showSnackBar(SnackBar(content: Text(responseDTO.msg)));
     }
   }
 

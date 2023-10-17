@@ -14,7 +14,7 @@ class UserRepository {
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       // 다시 responseDTO의 data에 파싱된 user를 덮어씌운다.
       // 즉, dynamic인 user 타입이 된다.
-      responseDTO.data = User.fromJson(responseDTO.data);
+      // responseDTO.data = User.fromJson(responseDTO.data);
       return responseDTO;
 
     } catch (e) {
