@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/data/provider/session_provider.dart';
 import 'package:flutter_blog/ui/pages/post/list_page/wiegets/post_list_body.dart';
 import 'package:flutter_blog/ui/widgets/custom_navigator.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostListPage extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -14,7 +16,7 @@ class PostListPage extends StatelessWidget {
       key: scaffoldKey,
       drawer: CustomNavigation(scaffoldKey),
       appBar: AppBar(
-        title: const Text("Blog"),
+        title: Text("Blog"),
       ),
       body: RefreshIndicator(
         key: refreshKey,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/_core/constants/http.dart';
 import 'package:flutter_blog/_core/constants/move.dart';
 import 'package:flutter_blog/data/dto/response_dto.dart';
 import 'package:flutter_blog/data/dto/user_request.dart';
@@ -7,8 +8,9 @@ import 'package:flutter_blog/data/repository/user_repository.dart';
 import 'package:flutter_blog/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Provider는 비지니스 로직을 처리한다!!!!!!!!!!!!!!!!!!!!!!!
 // Provider 만드는 패턴 (① -> ② -> ③)
-// 1. 창고 데이터
+// ① 창고 데이터
 class SessionUser {
   // 1-1. 화면 Context에 접근하는 방법 (이게 엄청 쉬운 방법임)
   final mContext = navigatorKey.currentContext;
@@ -38,10 +40,29 @@ class SessionUser {
   }
 
   // 로그인
-  Future<void> login() async {
+  Future<void> login(LoginReqDTO loginReqDTO) async {
     // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 
     // 2. 비지니스 로직
+    // 2-1. 로그인 성공
+    if (responseDTO.code == 1) {
+      // 2-1-1. 세션값 갱신
+      this.user = responseDTO.data as User;
+      this.jwt = responseDTO.token;
+      this.isLogin = true;
+
+      // 2-1-2. 디바이스에 JWT 저장
+      await secureStorage.write(key: "jwt", value: responseDTO.token);
+
+      // 로그인 성공시 페이지 이동
+      Navigator.pushNamed(mContext!, Move.postListPage); // !는 무조건 있다는 말
+    }
+    // 2-2. 로그인 실패 (-1)
+    else {
+      ScaffoldMessenger.of(mContext!)
+          .showSnackBar(SnackBar(content: Text(responseDTO.msg)));
+    }
   }
 
   // 로그아웃
@@ -54,9 +75,9 @@ class SessionUser {
 // 회원수정에도 필요하지만 여기는 수정이 없으므로 생략
 }
 
-// 2. 창고 (그냥 Provider는 상태 관리를 하지 않으니 필요없음!!!)
+// ② 창고 (그냥 Provider는 상태 관리를 하지 않으니 필요없음!!!)
 
-// 3. 창고 관리자
+// ③ 창고 관리자
 final sessionProvider = Provider<SessionUser>((ref) {
   return SessionUser();
 });
