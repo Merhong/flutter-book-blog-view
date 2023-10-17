@@ -4,6 +4,7 @@ import 'package:flutter_blog/_core/constants/size.dart';
 
 class CustomNavigation extends StatelessWidget {
   final scaffoldKey;
+
   const CustomNavigation(this.scaffoldKey, {Key? key}) : super(key: key);
 
   @override

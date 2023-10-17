@@ -19,8 +19,8 @@ class Move {
 Map<String, Widget Function(BuildContext)> getRouters() {
   return {
     Move.loginPage: (context) => const LoginPage(),
-  Move.joinPage: (context) => const JoinPage(),
-  Move.postListPage: (context) => PostListPage(),
-  Move.postWritePage: (context) => const PostWritePage(),
-};
+    Move.joinPage: (context) => const JoinPage(),
+    Move.postListPage: (context) => PostListPage(),
+    Move.postWritePage: (context) => const PostWritePage(),
+  };
 }

@@ -18,8 +18,7 @@ class PostListPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         key: refreshKey,
-        onRefresh: () async {
-        },
+        onRefresh: () async {},
         child: PostListBody(),
       ),
     );

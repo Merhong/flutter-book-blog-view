@@ -33,8 +33,7 @@ class PostWriteForm extends StatelessWidget {
           CustomElevatedButton(
             text: "글쓰기",
             funPageRoute: () async {
-              if (_formKey.currentState!.validate()) {
-              }
+              if (_formKey.currentState!.validate()) {}
             },
           ),
         ],

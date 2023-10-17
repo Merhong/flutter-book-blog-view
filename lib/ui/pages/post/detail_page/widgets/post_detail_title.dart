@@ -13,4 +13,3 @@ class PostDetailTitle extends StatelessWidget {
     );
   }
 }
-

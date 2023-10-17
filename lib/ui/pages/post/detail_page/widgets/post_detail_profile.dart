@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/_core/constants/size.dart';
 
 class PostDetailProfile extends StatelessWidget {
-
   const PostDetailProfile({Key? key}) : super(key: key);
 
   @override
@@ -22,7 +21,6 @@ class PostDetailProfile extends StatelessWidget {
             const Text("Written on "),
             Text("May 25"),
           ],
-        )
-    );
+        ));
   }
 }
