@@ -13,17 +13,17 @@ class PostListBody extends ConsumerWidget {
     // 구독 (PostListViewModel의 창고관리자 실행)
     PostListModel? model = ref.watch(postListProvider); // state == null
 
-    List<Post> posts=[];
+    List<Post> posts = [];
     // 1초
     // 2초
     // 3초
 
-    if(model != null) {
+    if (model != null) {
       posts = model.posts;
     }
 
     return ListView.separated(
-      itemCount: 5,
+      itemCount: posts.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {

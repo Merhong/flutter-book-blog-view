@@ -48,8 +48,8 @@ class SessionUser {
     // 2-1. 로그인 성공
     if (responseDTO.code == 1) {
       // 2-1-1. 세션값 갱신
-      this.user = responseDTO.data as User;
-      this.jwt = responseDTO.token;
+      this.user = responseDTO.data as User; // dynamic data를 User타입으로 다운캐스팅
+      this.jwt = responseDTO.token; // DTO에 담긴 토큰값 할당
       this.isLogin = true;
 
       // 2-1-2. 디바이스에 JWT 저장
@@ -75,7 +75,7 @@ class SessionUser {
 // 회원수정에도 필요하지만 여기는 수정이 없으므로 생략
 }
 
-// ② 창고 (그냥 Provider는 상태 관리를 하지 않으니 필요없음!!!)
+// ② 창고 (전역 Provider는 상태 관리를 하지 않으니 필요없음!!!)
 
 // ③ 창고 관리자
 final sessionProvider = Provider<SessionUser>((ref) {

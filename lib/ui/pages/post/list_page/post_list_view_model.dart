@@ -1,10 +1,10 @@
-// 1. 창고 데이터
 import 'package:flutter_blog/data/dto/response_dto.dart';
 import 'package:flutter_blog/data/model/post.dart';
 import 'package:flutter_blog/data/provider/session_provider.dart';
 import 'package:flutter_blog/data/repository/post_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// 1. 창고 데이터
 class PostListModel {
   List<Post> posts;
 
