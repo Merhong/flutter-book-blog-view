@@ -37,6 +37,7 @@ class Post {
         created = DateFormat("yyyy-mm-dd").parse(json["created"]),
         updated = DateFormat("yyyy-mm-dd").parse(json["updated"]);
 
+  // TODO 2 : 체크해보기
   String getUpdated() {
     return DateFormat.MMMd().format(updated);
   }

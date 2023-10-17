@@ -36,6 +36,7 @@ class LoginForm extends StatelessWidget {
               text: "로그인",
               funPageRoute: () {
                 Navigator.popAndPushNamed(context, Move.postListPage);
+                // 유효성 검사 코드
                 // if (_formKey.currentState!.validate()) {
                 //   Navigator.popAndPushNamed(context, Move.postListPage);
                 // }
