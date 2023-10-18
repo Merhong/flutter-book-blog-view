@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/_core/constants/move.dart';
 import 'package:flutter_blog/_core/constants/size.dart';
+import 'package:flutter_blog/data/provider/session_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomNavigation extends StatelessWidget {
+class CustomNavigation extends ConsumerWidget {
   final scaffoldKey;
 
   const CustomNavigation(this.scaffoldKey, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: getDrawerWidth(context),
       height: double.infinity,
@@ -37,7 +39,9 @@ class CustomNavigation extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   scaffoldKey.currentState!.openEndDrawer();
-                  Navigator.popAndPushNamed(context, Move.loginPage);
+                  ref.read(sessionProvider).logout(); // 로그아웃을 안하면 jwt가 남아있음
+
+
                 },
                 child: const Text(
                   "로그아웃",

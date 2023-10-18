@@ -66,10 +66,20 @@ class SessionUser {
   }
 
   // 로그아웃
+  // JWT는 로그아웃할 때 서버측으로 요청할 필요가 없음!!!
   Future<void> logout() async {
     // 1. 통신 코드
 
     // 2. 비지니스 로직
+    this.jwt = null;
+    this.isLogin = false;
+    this.user = null;
+
+    // 자동로그인 해지하기 I/O가 발생할 수 있으니 await을 붙인다.
+    await secureStorage.delete(key: "jwt");
+
+    // 다 처리하면 화면 이동
+    Navigator.pushNamedAndRemoveUntil(mContext!, "/login", (route) => false);
   }
 
 // 회원수정에도 필요하지만 여기는 수정이 없으므로 생략
