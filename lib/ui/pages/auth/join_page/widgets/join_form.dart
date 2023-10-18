@@ -47,7 +47,10 @@ class JoinForm extends ConsumerWidget {
             funPageRoute: () {
               // 유효성 검사 코드
               if (_formKey.currentState!.validate()) {
-                JoinReqDTO joinReqDTO = JoinReqDTO(username: _username.text, password: _password.text, email: _email.text);
+                JoinReqDTO joinReqDTO = JoinReqDTO(
+                    username: _username.text,
+                    password: _password.text,
+                    email: _email.text);
                 ref.read(sessionProvider).join(joinReqDTO);
                 // Navigator.popAndPushNamed(context, Move.postListPage);
               }

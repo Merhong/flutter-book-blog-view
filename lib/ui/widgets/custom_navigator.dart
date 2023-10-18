@@ -40,8 +40,6 @@ class CustomNavigation extends ConsumerWidget {
                 onPressed: () {
                   scaffoldKey.currentState!.openEndDrawer();
                   ref.read(sessionProvider).logout(); // 로그아웃을 안하면 jwt가 남아있음
-
-
                 },
                 child: const Text(
                   "로그아웃",
