@@ -39,6 +39,7 @@ class LoginForm extends ConsumerWidget {
             funPageRoute: () {
               // 유효성 검사 코드
               if (_formKey.currentState!.validate()) {
+                // 통신 -> 프로바이더한테 줄려면 ref만 있으면 된다.
                 LoginReqDTO loginReqDTO = LoginReqDTO(
                     username: _username.text.trim(), password: _password.text);
                 ref.read(sessionProvider).login(loginReqDTO);

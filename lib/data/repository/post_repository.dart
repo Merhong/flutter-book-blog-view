@@ -20,7 +20,7 @@ class PostRepository {
       // 2. ResponseDTO 파싱 : DTO에 담기 -> data가 dynamic인 Map 타입
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
-      // 3. ResponseDTo의 data 파싱
+      // 3. ResponseDTO의 data 파싱
       List<dynamic> mapList = responseDTO.data as List<dynamic>;
       List<Post> postList = mapList.map((e) => Post.fromJson(e)).toList();
 
@@ -36,16 +36,34 @@ class PostRepository {
     }
   }
 
-  Future<ResponseDTO> fetchPost(String jwt, PostSaveReqDTO dto) async {
+  Future<ResponseDTO> fetchPost(String jwt, int id) async {
     try {
-      // 1. 통신
+      // 통신
+      Response response = await dio.get("/post/$id",
+          options: Options(headers: {"Authorization": "$jwt"}));
+
+      // 응답 받은 데이터 파싱
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+      responseDTO.data = Post.fromJson(responseDTO.data);
+
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(-1, "게시글 한건 불러오기 실패", null);
+    }
+  }
+
+  // deletePost, updatePost, savePost
+  // fetch는 GET 요청시에만 사용한다.
+  Future<ResponseDTO> savePost(String jwt, PostSaveReqDTO dto) async {
+    try {
+      // 1. 통신 : 헤더의 jwt를 전달해야한다. ref 사용시 SRP 위반!!!
       final response = await dio.post("/post",
           data: dto.toJson(),
           options: Options(headers: {"Authorization": "${jwt}"}));
 
       Logger().d(response.data);
 
-      // 2. ResponseDTO 파싱
+      // 2. ResponseDTO 파싱(DTO에 담기) -> data가 dynamic인 Map 타입
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d(responseDTO.data);
 
@@ -53,6 +71,8 @@ class PostRepository {
       Post post = Post.fromJson(responseDTO.data);
 
       // 4. 파싱된 데이터를 다시 공통 DTO로 덮어씌우기
+      // 다시 responsedDTO의 data에 파싱된 postList를 덮어씌운다.
+      // dynamic(Post)
       responseDTO.data = post;
 
       return responseDTO;

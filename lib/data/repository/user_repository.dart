@@ -12,12 +12,14 @@ class UserRepository {
   Future<ResponseDTO> fetchJoin(JoinReqDTO requestDTO) async {
     try {
       final response = await dio.post("/join", data: requestDTO.toJson());
-      // DTO에 담기 -> data가 dynamic인 Map 타입
+
+      // 전체를 파싱(DTO에 담기) -> data가 dynamic인 Map 타입
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
       // 다시 responseDTO의 data에 파싱된 user를 덮어씌운다.
       // 즉, dynamic인 user 타입이 된다.
-
       // responseDTO.data = User.fromJson(responseDTO.data); // 회원가입시 필요없어서 주석처리
+
       return responseDTO;
     } catch (e) {
       // 통신코드 200이 아니면 catch를 탄다.
@@ -29,13 +31,17 @@ class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       final response = await dio.post("/login", data: requestDTO.toJson());
-      // DTO에 담기 -> data가 dynamic인 Map 타입
+
+      // 1. 전체를 파싱(DTO에 담기)-> data가 dynamic인 Map 타입
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+
       // 다시 responseDTO의 data에 파싱된 user를 덮어씌운다.
-      // 즉, dynamic인 user 타입이 된다.
+      // 즉, dynamic인 User 타입이 된다. dynamic(User)
       responseDTO.data = User.fromJson(responseDTO.data); // 로그인시 필요함
+
       // 토큰처리, DTO에 옮겨 담는다.
       final jwt = response.headers["Authorization"];
+
       if (jwt != null) {
         responseDTO.token = jwt.first; // 토큰의 0번지를 담는다.
       }

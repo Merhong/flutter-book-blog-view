@@ -40,6 +40,7 @@ class SessionUser {
   }
 
   // 로그인
+  // void인 이유? 화면으로 응답을 안해줄꺼니까!!!
   Future<void> login(LoginReqDTO loginReqDTO) async {
     // 1. 통신 코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
@@ -56,9 +57,9 @@ class SessionUser {
       await secureStorage.write(key: "jwt", value: responseDTO.token);
 
       // 로그인 성공시 페이지 이동
-      Navigator.pushNamed(mContext!, Move.postListPage); // !는 무조건 있다는 말
+      Navigator.pushNamed(mContext!, Move.postListPage); // !는 무조건 값이 있다는 말
     }
-    // 2-2. 로그인 실패 (-1)
+    // 2-2. 로그인 실패 (code == -1)
     else {
       ScaffoldMessenger.of(mContext!)
           .showSnackBar(SnackBar(content: Text(responseDTO.msg)));

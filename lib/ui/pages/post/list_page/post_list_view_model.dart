@@ -37,18 +37,16 @@ class PostListViewModel extends StateNotifier<PostListModel?> {
     SessionUser sessionUser = ref.read(sessionProvider);
 
     ResponseDTO responseDTO =
-        await PostRepository().fetchPost(sessionUser.jwt!, dto);
+        await PostRepository().savePost(sessionUser.jwt!, dto);
 
+    // 1. dynamic(Post) 다운캐스팅 묵시적으로 해주지만 적어준거임.
     if (responseDTO.code == 1) {
-      Post newPost =
-          responseDTO.data as Post; // 1. dynamic(Post) 다운캐스팅 묵시적으로 해주지만 적어준거임.
+      Post newPost = responseDTO.data as Post;
       // List<Post> posts = state!.posts; // 상태값"의" posts가 posts다
-      List<Post> newPosts = [
-        newPost,
-        ...state!.posts
-      ]; // 2. 2. 기존 상태에 데이터 추가 [전개연산자] 새로 글쓰면 맨앞 번지에 나오게 설정
-      state = PostListModel(
-          newPosts); // 3. ViewModel(창고) 데이터 갱신이 완료 -> watch 구독자는 rebuild 됨.
+      // 2. 2. 기존 상태에 데이터 추가 [전개연산자] 새로 글쓰면 맨앞 번지에 나오게 설정
+      List<Post> newPosts = [newPost, ...state!.posts];
+      // 3. ViewModel(창고) 데이터 갱신이 완료 -> watch 구독자는 rebuild 됨.
+      state = PostListModel(newPosts);
 
       Navigator.pop(mContext!); // 4. 글쓰기 화면 pop
     } else {
@@ -61,7 +59,7 @@ class PostListViewModel extends StateNotifier<PostListModel?> {
 // 3. 창고 관리자 (View 빌드되기 직전에 생성됨)
 // ref watch는 지속적 구독, autoDispose는 필요없어지는 화면 자동으로 삭제해줌
 final postListProvider =
-    StateNotifierProvider.autoDispose<PostListViewModel, PostListModel?>(
+    StateNotifierProvider<PostListViewModel, PostListModel?>(
   (ref) {
     return PostListViewModel(null, ref)..notifyInit();
   },
